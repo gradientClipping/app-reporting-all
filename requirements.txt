@@ -1,0 +1,9 @@
+streamlit
+pandas
+numpy
+altair
+torch
+transformers
+xlsxwriter
+openpyxl
+lxml
