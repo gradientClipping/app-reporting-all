@@ -427,9 +427,9 @@ def process_session_data(log_file, smartcare_file):
         target_date = extract_date_from_filename(aws_filename)
         
         if target_date:
-            st.info(f"📅 Date detected from AWS filename: **{target_date}**")
+            st.info(f"Date detected from AWS filename: **{target_date}**")
         else:
-            st.warning(f"⚠️ Could not extract date from filename: {aws_filename}")
+            st.warning(f"Could not extract date from filename: {aws_filename}")
         
         # Process AWS
         raw_aws = pd.read_fwf(log_file, header=None)
@@ -441,7 +441,7 @@ def process_session_data(log_file, smartcare_file):
         # Process Smartcare
         raw_smartcare = pd.read_csv(smartcare_file)
         if 'Session ID' not in raw_smartcare.columns:
-            st.error("❌ Missing 'Session ID' column in Smartcare CSV.")
+            st.error("Missing 'Session ID' column in Smartcare CSV.")
             return None, None, None, None
         
         total_smartcare_rows = len(raw_smartcare)
@@ -456,7 +456,7 @@ def process_session_data(log_file, smartcare_file):
                 raw_smartcare['temp_date_obj'] = pd.to_datetime(raw_smartcare['Date'], format=date_fmt, errors='coerce')
                 valid_dates = raw_smartcare['temp_date_obj'].notna().sum()
                 if valid_dates > 0:
-                    st.success(f"✅ Successfully parsed {valid_dates:,} dates using format: **{date_fmt}**")
+                    st.success(f"Successfully parsed {valid_dates:,} dates using format: **{date_fmt}**")
                     date_parsed = True
                     break
             
@@ -468,20 +468,20 @@ def process_session_data(log_file, smartcare_file):
                 smartcare_filtered = True
                 
                 if after_count == 0:
-                    st.error(f"❌ No Smartcare records found for date **{target_date}**. Using all rows instead.")
+                    st.error(f"No Smartcare records found for date **{target_date}**. Using all rows instead.")
                     # Reload without filter
                     raw_smartcare = pd.read_csv(smartcare_file)
                     smartcare_filtered = False
                 else:
-                    st.success(f"✅ Date filter applied: {before_count:,} → **{after_count:,}** rows for {target_date}")
+                    st.success(f"Date filter applied: {before_count:,} → **{after_count:,}** rows for {target_date}")
             else:
-                st.warning("⚠️ Could not parse dates in Smartcare file. **Using all rows.**")
+                st.warning("Could not parse dates in Smartcare file. **Using all rows.**")
         else:
             if not target_date:
-                st.info("ℹ️ No target date available for filtering")
+                st.info("No target date available for filtering")
             elif 'Date' not in raw_smartcare.columns:
-                st.info("ℹ️ No 'Date' column found in Smartcare file")
-            st.info("📋 **Using all Smartcare rows** (no date filtering)")
+                st.info("No 'Date' column found in Smartcare file")
+            st.info("**Using all Smartcare rows** (no date filtering)")
         
         smartcare_ids = raw_smartcare['Session ID'].dropna().astype(str).str.strip()
         set_smartcare = set(smartcare_ids.unique())
@@ -509,7 +509,7 @@ def process_session_data(log_file, smartcare_file):
         return summary, df_only_aws, df_only_smartcare, df_common
         
     except Exception as e:
-        st.error(f"❌ Processing Error: {str(e)}")
+        st.error(f"Processing Error: {str(e)}")
         return None, None, None, None
 
 def to_excel_download(df, name='data'):
