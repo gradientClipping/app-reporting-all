@@ -118,7 +118,7 @@ def normalize_text_review(text):
 @st.cache_resource
 def load_classifier_model():
     """Loads the specific IndoBERT model for Negative CS Classification"""
-    model_id = "juangwijaya/indobert-2-neg-cx"
+    model_id = "juangwijaya/indobert-negative-cx-experience-december"
     try:
         tokenizer = AutoTokenizer.from_pretrained(model_id)
         model = AutoModelForSequenceClassification.from_pretrained(model_id)
